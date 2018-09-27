@@ -1,0 +1,177 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+body{
+	color: #333;
+	background-color: #d9d9d9;
+	background: #141E30;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	font-family: arial;
+	font-size: 2em;
+	height: 100vh;
+	overflow: hidden;
+	margin: 0;
+}
+.nav-item button{
+	background: lightgray;
+	color: #333;
+	transition: .5s;
+	
+}
+.nav-item button:hover{
+	background: grey;
+	transition: .5s;
+}
+table {
+    width: 90%;
+    overflow: scroll;
+}
+
+td {
+	margin-left: 0;
+	width: 100%;
+     
+}
+ul{
+	list-style-type: none;
+}
+
+.siteContainer{
+	margin: auto;
+	width: 90%;
+}
+.headerContainer{
+	margin: auto;
+	
+}
+.headerBox{
+	background-color: lightgray;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 10px;
+	padding: 10px;
+	text-align: center;
+}
+.bodyContainer{
+	float: left;
+	margin: auto;
+	width: 100%;
+}
+
+.bodyBox{
+	background-color: lightgrey;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 10px;
+	text-align: left;
+	transition: background .5s;
+}
+.bodyBox a{
+	color: inherit;
+	display: block;
+	padding: 15% 35px;
+	text-decoration: none;
+	
+}
+.footerContainer{
+	float: left;
+	margin: auto;
+	position: fixed;
+	bottom: 0;
+	width: 90%;
+}
+.footerBox{
+	background-color: lightgrey;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	height: 100%;
+	border-radius: 5px;
+	margin: 10px;
+	padding: 10px;
+	text-align: center;
+}
+
+.nav-container{
+	float: left;
+	width: 20%;
+}
+.nav-item button{
+	width: 100%;
+	float: left;
+}
+.nav-item{
+	background-color: gray;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 10px;
+	overflow-y: auto;
+	text-align: center;
+	padding: 0;
+}
+.contentContainer{
+	float: left;
+	width:80%;
+}
+.contentBox{
+	background-color: lightgray;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	max-height: 75vh;
+	margin: 10px;
+	overflow-y: auto;
+	text-align: left;
+
+}
+
+
+
+
+@media screen and (Max-width:800px){
+	body{
+		font-size: 24px;
+		overflow: auto;
+	}
+	.siteContainer{
+		width: 100%;
+	}
+	.headerContainer{
+		width: 100%;
+	}
+	.footerContainer{
+		position:inherit;
+		width: 100%;
+		display: none;
+	}
+	.leftContainer{
+		width: 100%;
+	}
+	.middleContainer{
+		width: 100%;
+	}
+	.rightContainer{
+		width: 100%;
+	}
+	.twoContainer{
+		width: 100%;
+	}
+	.formContainer{
+		margin-bottom: 10px;
+		width:100%;
+	}
+	.loginContainer{
+		margin-bottom: 10px;
+		width:100%;
+	}
+	.loginBox{
+		overflow: auto;
+	}
+	.homeButton{
+		width: 6%;
+	}
+	
+}

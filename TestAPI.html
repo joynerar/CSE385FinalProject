@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous">
+	</script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+	<body>
+
+		<div>Count: <input type="text" value="0" id="txtCount" /></div>
+		<div>Filter: <input type="text" id="txtFilter" /></div>
+		<input type="button" id="retAll" value="retAll" />
+
+		<ol id="ulList" class="list-group"></ol>
+			
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var ulList = $('#ulList');
+				var count = $('#txtCount');
+				var filter = $('#txtFilter');
+
+				//===================================================================================================
+				// Get a list of random cars from an API
+				//===================================================================================================
+				$('#retAll').click(function () {
+				    ajax("spTest2API", {}, function (data) {
+						ulList.empty();
+						$.each(data, function (index, val) {
+							ulList.append('<li class="list-group-item">' + val.StudentName + '</li>');
+						});
+					});
+				});
+
+				//===================================================================================================
+				// Get a list of customers from the database using an API
+				//===================================================================================================
+				$('#btnGetCustomers').click(function () {
+					ajax("getCustomersByFilter", { "count": count.val(), "filter": filter.val() }, function (data) {
+						ulList.empty();
+						$.each(data, function (index, val) {
+							ulList.append('<li class="list-group-item"><img src="https://robohash.org/' + val.EmailAddress + '.png" width="50" height="50" />' + (val.EmailAddress + ': ' + val.FirstName + ' ' + val.LastName).replace(filter.val(),'<span style="background-color:yellow;">' + filter.val() + '</span>') + '</li>')
+						});
+					});
+				});
+
+				//===================================================================================================
+				// Button to clear the fields
+				//===================================================================================================
+				$('#btnClear').click(function () {
+					ulList.empty();
+					count.val('0');
+					filter.val('');
+				});
+
+
+				//===================================================================================================
+				// Generic method for AJAX calls
+				//===================================================================================================
+				function ajax(method, data, fn) {
+					$.ajax({
+						type: 'POST',
+						url: 'armstrongAPI.asmx/' + method,
+						dataType: 'json',
+						data: data,
+						success: fn
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

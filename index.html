@@ -1,0 +1,153 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<title>ASC logs</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="include/style.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script>$(document).ready(function () {
+	var ulList = $('#ulList');
+	var filter = $('#filter');
+	var startDate = $('#startDate');
+	var endDate = $('#endDate');
+
+	//RETURN ALL Students
+	$('#retAllstds').click(function () {
+		ajax("returnAllStudents", {}, function (data) {
+			formClear();
+			ulList.empty();
+			$.each(data, function (index, val) {
+				ulList.append('<li class="list-group-item">' + val.StudentName + '</li>');
+			});
+		});
+	});
+	$('#zeroHour').click(function () {
+		ajax("zeroHourLogins", {}, function (data) {
+			formClear();
+			ulList.empty();
+			ulList.append('<table>');
+	        $.each(data, function (index, val) {
+	            ulList.append('<tr><td style="width:60%;">' + val.StudentName + '</td><td style="text-align: center;"> ' + val.LoginTime + '</td><td> ' + val.OrganizationName + '</td></tr>');
+	            ulList.append('<tr><td colspan="3"><hr></td></tr>');
+	        });
+			ulList.append('</table>');
+		});
+	});
+	//RETURN ALL ORGS
+	$('#retAllorgs').click(function () {
+		ajax("returnAllOrgs", {}, function (data) {
+			formClear();
+			ulList.empty();
+			$.each(data, function (index, val) {
+				ulList.append('<li class="list-group-item">' + val.OrganizationName + '</li>');
+			});
+		});
+	});
+	//RETURN Average ALL ORGS
+	$("#filter").on("click", "#runGetAllAvgOrgs", function () {
+	    ajax("getAverageOfAllOrgs", { "startTime": $('#startDate').val(), "endTime": $('#endDate').val() }, function (data) {
+	        ulList.empty();
+	        ulList.append('<table>');
+	        $.each(data, function (index, val) {
+	            ulList.append('<tr><td style="width:60%;">' + val.OrganizationName + '</td><td style="text-align: center;"> ' + val.AverageHours + '</td><td> ' + val.Status + '</td></tr>');
+	            ulList.append('<tr><td colspan="3"><hr></td></tr>');
+	        });
+			ulList.append('</table>');
+		});
+	});
+	$("#filter").on("click", "#getAverageOfSingleOrg", function () {
+	    ajax("getAverageOfSingleOrg", { "startTime": $('#startDate').val(), "endTime": $('#endDate').val(), "OrganizationName": $('#orgName').val() }, function (data) {
+	        ulList.empty();
+	        ulList.append('<table>');
+	        $.each(data, function (index, val) {
+	            ulList.append('<tr><td style="width:60%;">' + val.OrganizationName + '</td><td style="text-align: center;"> ' + val.AverageHours + '</td><td> ' + val.Status + '</td></tr>');
+	            ulList.append('<tr><td colspan="3"><hr></td></tr>');
+	        });
+			ulList.append('</table>');
+		});
+	});
+	//Reset output
+	$('#btnClear').click(function () {
+		formClear();
+		ulList.empty();
+		ulList.append('<li><- Press a button to create a report </li>');
+	});
+	//ajax call
+	function ajax(method, data, fn) {
+		$.ajax({
+			type: 'POST',
+			url: 'armstrongAPI.asmx/' + method,
+			dataType: 'json',
+			data: data,
+			success: fn
+		});
+	}
+	//Clear the form
+	function formClear(){
+		filter.empty();
+	}
+	//Populate Form for all avg
+	$('#getAvgOrgsForm').click(function () {
+		filter.empty();
+		filter.append('<input type="date" id="startDate">');
+		filter.append('<input type="date" id="endDate" default=today>');
+		filter.append('<button id="runGetAllAvgOrgs"><p>Generate Report</p></button>');
+		ulList.empty();
+		ulList.append('<li>Enter dates and click generate report</li>');
+	});
+	$('#getAvgOrgSingleForm').click(function () {
+		filter.empty();
+		filter.append('<input type="date" id="startDate">');
+		filter.append('<input type="date" id="endDate" default=today>');
+		filter.append('<input type="text" id="orgName" placeholder="Organization Name">');
+		filter.append('<button id="getAverageOfSingleOrg"><p>Generate Report</p></button>');
+		ulList.empty();
+		ulList.append('<li>Enter dates and Organization Name then click generate report</li>');
+	});
+});</script>
+</head>
+<body>
+	<div class="siteContainer">
+	
+		<div class="headerContainer">
+			<div class="headerBox">
+				<p style="display: inline"> Armstrong Student Center  </p> 
+			</div>
+		</div>
+		<div class="bodyContainer">
+			<div class="nav-container">
+				<div class="nav-item">
+					<button id="btnClear"><p>Clear</p></button>
+					<button id="retAllstds"><p>List All Students</p></button>
+					<button id="retAllorgs"><p>List All Organizations</p></button>
+					<button id="getAvgOrgsForm"><p>Get Average of All Organizations</p></button>
+					<button id="getAvgOrgSingleForm"><p>Get Average of Single Organization</p></button>
+					<button id="zeroHour"><p>Get all students with 0 hour logins</p></button>
+				</div>
+			</div>
+			<div class="contentContainer">
+				<div class="contentBox">
+					<div>
+					<div id="filter">
+					</div>
+						<hr>
+					</div>
+					<div> 
+						<ul id="ulList" class="list-group"><li><- Press a button to create a report </li></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footerContainer">
+			<div class="footerBox">
+				&copy;2018 
+			</div>
+		</div>
+	</div>
+</body>
+</html>
